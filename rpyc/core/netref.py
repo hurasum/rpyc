@@ -222,7 +222,10 @@ class BaseNetref(with_metaclass(NetrefMetaclass, object)):
             if self.____id_pack__[2] == 0:
                 # outside the context of `__instancecheck__`, `__class__` is expected to be type(self)
                 # within the context of `__instancecheck__`, `other` should be compared to the proxied class
-                return isinstance(other, type(self).__dict__['__class__'].instance)
+                try:
+                    return isinstance(other, type(self).__dict__['__class__'].instance)
+                except AttributeError:
+                    return isinstance(other, type(self))
             else:
                 raise TypeError("isinstance() arg 2 must be a class, type, or tuple of classes and types")
 
